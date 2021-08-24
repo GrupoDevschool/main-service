@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<springProfile name="dev"/>
-	
+    <springProfile name="dev"/>
+
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-    
+
     <springProperty name="driverClass" source="spring.datasource.Driver" />
     <springProperty name="url" source="spring.datasource.url" />
     <springProperty name="username" source="spring.datasource.username" />
     <springProperty name="password" source="spring.datasource.password" />
     <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
-	    <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
-	      <driverClass>${driverClass}</driverClass>
-	      <url>${url}</url>
-	      <user>${username}</user>
-	      <password>${password}</password>
-	    </connectionSource>
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+            <driverClass>${driverClass}</driverClass>
+            <url>${url}</url>
+            <user>${username}</user>
+            <password>${password}</password>
+        </connectionSource>
     </appender>
-    
+
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
     </root>

@@ -31,7 +31,7 @@ services:
     container_name: springboot
     build:
       context: .
-      dockerfile: ./springboot.dockerfile
+      dockerfile: ./main/springboot.dockerfile
     image: springboot
     ports:
       - "8080:8080"

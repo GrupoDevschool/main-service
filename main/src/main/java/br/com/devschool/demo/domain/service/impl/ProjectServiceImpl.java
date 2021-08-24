@@ -38,6 +38,8 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ProjectsNotListedException();
         }
 
+//        List<ProjectDTO> projectDTOS = projects.stream().map()
+
         return projects;
     }
 

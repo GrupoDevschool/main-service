@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ScreenDTO {
+    private Integer id;
     private String name;
     private String image;
     private boolean active;

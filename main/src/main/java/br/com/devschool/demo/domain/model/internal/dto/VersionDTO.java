@@ -8,6 +8,8 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class VersionDTO {
+    private Integer id;
+
     private String versionNumber;
 
     private String gmud;

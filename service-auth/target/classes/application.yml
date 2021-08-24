@@ -2,6 +2,7 @@ spring:
   profiles:
     active: dev
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: true
     show_sql: true
     properties:
