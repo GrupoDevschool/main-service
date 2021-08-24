@@ -11,6 +11,8 @@ spring:
     redis:
       use-key-prefix: true
     type: redis
+  application:
+    name: 'sistema-documentacao'
 
 eureka:
   client:

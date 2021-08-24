@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/main/demo.iml" filepath="$PROJECT_DIR$/main/demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-discovery/eureka-server.iml" filepath="$PROJECT_DIR$/service-discovery/eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-auth/jwt.iml" filepath="$PROJECT_DIR$/service-auth/jwt.iml" />
+    </modules>
+  </component>
+</project>
