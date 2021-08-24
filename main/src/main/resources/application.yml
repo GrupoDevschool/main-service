@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: dev
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  cache:
+    redis:
+      use-key-prefix: true
+    type: redis

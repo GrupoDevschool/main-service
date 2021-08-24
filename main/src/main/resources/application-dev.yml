@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    Driver: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:32779/document
+    username: root
+    password: password
+  redis:
+    host: 'localhost'
+    timeout: 10000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
