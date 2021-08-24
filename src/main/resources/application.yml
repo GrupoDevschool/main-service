@@ -27,6 +27,9 @@ application:
 #    url: http://validation:8081/session
     url: http://localhost:8081/session
 
-mobicare:
-  jwt:
-    secret: $2a$12$ykaSFLXZ2NUCSyNsYu4eae8obBxTMFEl9UMVHwxvsk.0J31NyS7p6
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
