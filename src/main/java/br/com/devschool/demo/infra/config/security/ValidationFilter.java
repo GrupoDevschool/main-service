@@ -1,5 +1,9 @@
 package br.com.devschool.demo.infra.config.security;
 
+import br.com.devschool.demo.infra.api.AuthAPI;
+import br.com.devschool.demo.infra.api.User;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -7,14 +11,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 public class ValidationFilter extends OncePerRequestFilter {
 
-    private TokenService tokenService;
+    private AuthAPI authAPI;
 
-    public ValidationFilter(TokenService tokenService) {
-        this.tokenService = tokenService;
+    public ValidationFilter(AuthAPI authAPI) {
+        this.authAPI = authAPI;
     }
 
     @Override
@@ -22,8 +25,12 @@ public class ValidationFilter extends OncePerRequestFilter {
 
         String token = getToken(request);
 
-        if (!Objects.isNull(token)) {
-            tokenService.authenticateJWT(token, request);
+        if (token != null) {
+
+            User user = authAPI.getUser(token);
+
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);
