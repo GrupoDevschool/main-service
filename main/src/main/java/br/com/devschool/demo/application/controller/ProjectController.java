@@ -2,6 +2,7 @@ package br.com.devschool.demo.application.controller;
 
 import br.com.devschool.demo.domain.model.internal.Project;
 import br.com.devschool.demo.domain.service.ProjectService;
+import br.com.devschool.demo.infra.exception.ProjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
