@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: 'main'
   datasource:
     Driver: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:32779/document
