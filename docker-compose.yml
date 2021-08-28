@@ -30,18 +30,49 @@ services:
   springboot:
     container_name: springboot
     build:
-      context: .
-      dockerfile: ./main/springboot.dockerfile
+      context: ./main
+      dockerfile: ./springboot.dockerfile
     image: springboot
     ports:
       - "8080:8080"
-    environment: 
-      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldoc:3306/document
+      - spring.redis.host=redisdoc
+      - eureka.client.service-url.defaultZone=http://eureka:8761/eureka
     networks:
-    - production
+      - production
     depends_on:
       - mysqldoc
       - redisdoc
+      - eureka
+  eureka:
+    container_name: eureka
+    build:
+      context: ./service-discovery
+      dockerfile: ./Dockerfile
+    image: eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - production
+  jwt:
+    container_name: jwt
+    build:
+      context: ./service-auth
+      dockerfile: ./Dockerfile
+    image: jwt
+    ports:
+      - "8082:8082"
+    networks:
+      - production
+    depends_on:
+      - mysqldoc
+      - redisdoc
+      - eureka
+      - springboot
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldoc:3306/document
+      - eureka.client.service-url.defaultZone=http://eureka:8761/eureka
 networks:
   production:
     driver: bridge
