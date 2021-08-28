@@ -44,7 +44,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project getProjectById(Integer id) {
+    public Project getProjectById(Integer id){
         return projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException(id));
     }
 
