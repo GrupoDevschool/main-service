@@ -1,10 +1,15 @@
 package br.com.devschool.demo.domain.model.internal.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
-@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RequestPropertyDTO {
 
     private Integer requestId;
@@ -16,5 +21,20 @@ public class RequestPropertyDTO {
     private Integer value;
 
     private String order;
+
+
+    public RequestPropertyDTO(RequestPropertyDTO requestPropertyDTO) {
+        this.requestId = requestPropertyDTO.getRequestId();
+        this.type = requestPropertyDTO.getKey();
+        this.key = requestPropertyDTO.getKey();
+        this.value = requestPropertyDTO.getValue();
+        this.order = requestPropertyDTO.getOrder();
+    }
+
+
+    public static List<RequestPropertyDTO> covertList(List<RequestPropertyDTO> allProperties) {
+        return allProperties.stream().map(RequestPropertyDTO::new).collect(Collectors.toList());
+    }
+
 
 }
