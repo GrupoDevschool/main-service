@@ -22,7 +22,7 @@ public class RequestPropertyServiceImpl implements RequestPropertyService {
     private final RequestRepository requestRepository;
 
     @Override
-    public List<RequestPropertyDTO> getAllRequestProperty() {
+    public List<RequestProperty> getAllRequestProperty() {
         return requestPropertyRepository.findAll();
     }
 

@@ -1,11 +1,12 @@
 package br.com.devschool.demo.domain.model.internal.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import br.com.devschool.demo.domain.model.internal.RequestProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -23,17 +24,17 @@ public class RequestPropertyDTO {
     private String order;
 
 
-    public RequestPropertyDTO(RequestPropertyDTO requestPropertyDTO) {
-        this.requestId = requestPropertyDTO.getRequestId();
-        this.type = requestPropertyDTO.getKey();
-        this.key = requestPropertyDTO.getKey();
-        this.value = requestPropertyDTO.getValue();
-        this.order = requestPropertyDTO.getOrder();
+    public RequestPropertyDTO(RequestProperty requestProperty) {
+        this.requestId = requestProperty.getRequest().getId();
+        this.type = requestProperty.getType();
+        this.key = requestProperty.getKey();
+        this.value = requestProperty.getValue();
+        this.order = requestProperty.getOrder();
     }
 
 
-    public static List<RequestPropertyDTO> covertList(List<RequestPropertyDTO> allProperties) {
-        return allProperties.stream().map(RequestPropertyDTO::new).collect(Collectors.toList());
+    public static List<RequestPropertyDTO> covertList(List<RequestProperty> requestProperties) {
+        return requestProperties.stream().map(RequestPropertyDTO::new).collect(Collectors.toList());
     }
 
 
