@@ -2,6 +2,7 @@ package br.com.devschool.demo.application.controller;
 
 import static br.com.devschool.demo.util.JsonConvertionUtils.asJsonString;
 import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -12,9 +13,13 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
+import br.com.devschool.demo.infra.exception.CascadeDeletionException;
 import br.com.devschool.demo.infra.exception.ProjectNotFoundException;
 import br.com.devschool.demo.util.JsonConvertionUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.AbstractCharSequenceAssert;
+import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,13 +53,15 @@ class ProjectControllerTest {
 	private static final String PROJECT_API_URL_PATH = "/project";
 	private static final Integer PROJECT_VALID_ID = 1;
 	private static final Integer PROJECT_INVALID_ID = 2;
-	private static final Project project = Project.builder()
-			.id(1)
-			.name("Projeto Test")
-			.status(true)
-			.createdDate(LocalDate.now())
-			.updatedDate(LocalDate.now())
-			.build();
+	private Project projectBuilder() {
+		return Project.builder()
+				.id(1)
+				.name("Projeto Test")
+				.status(true)
+				.createdDate(LocalDate.now())
+				.updatedDate(LocalDate.now())
+				.build();
+	}
 
 	private MockMvc mockMvc;
 
@@ -69,16 +77,17 @@ class ProjectControllerTest {
 	@BeforeEach
 	void setUp() {
 		mockMvc = MockMvcBuilders.standaloneSetup(projectController)
+				.setControllerAdvice(new ErrorHandler())
 				.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-				.setViewResolvers((s, locale) -> new MappingJackson2JsonView())
 				.build();
 	}
 	
 	@Test
 	void requestGetForListProjectsMustReturnStatusOk() throws Exception {
+		Project expectedProject = this.projectBuilder();
 
 		//when
-		when(projectService.getAllProjects(any(), any(), any())).thenReturn(Collections.singletonList(project));
+		when(projectService.getAllProjects(any(), any(), any())).thenReturn(Collections.singletonList(expectedProject));
 
 		//then
 		mockMvc.perform(get(PROJECT_API_URL_PATH)
@@ -88,36 +97,97 @@ class ProjectControllerTest {
 	
 	@Test
 	void quandoGETForChamadoPassandoUmIDValidoRetorneStatusIsOk() throws Exception {
+		Project expectedProject = this.projectBuilder();
+
 		//when
-		when(projectService.getProjectById(PROJECT_VALID_ID)).thenReturn(project);
+		when(projectService.getProjectById(PROJECT_VALID_ID)).thenReturn(expectedProject);
 
 		//then
 		mockMvc.perform(get(PROJECT_API_URL_PATH + "/" + PROJECT_VALID_ID)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.name", is(expectedProject.getName())))
+				.andExpect(jsonPath("$.status", is(expectedProject.isStatus())));
+
+	}
+
+	@Test
+	void quandoGETForChamadoPassandoUmIDInvalidoRetorneStatusInternalServerError() throws Exception {
+		//when
+		when(projectService.getProjectById(PROJECT_INVALID_ID)).thenThrow(ProjectNotFoundException.class);
+
+		//then
+		mockMvc.perform(get(PROJECT_API_URL_PATH + "/" + PROJECT_INVALID_ID)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isInternalServerError());
+	}
+
+	@Test
+	void quandoPOSTForChamadoEUmProjetoForCriadoRetorneStatusIsOk() throws Exception {
+		Project project = this.projectBuilder();
+
+		when(projectService.createProject(project)).thenReturn(project);
+
+		mockMvc.perform(post(PROJECT_API_URL_PATH)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(project)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.name", is(project.getName())));
+	}
+
+	/*@Test
+	void quandoPOSTForChamadoEUmCampoForNuloRetorneStatusInternalServerError() throws Exception {
+		Project project = this.projectBuilder();
+		project.setName(null);
+
+		mockMvc.perform(post(PROJECT_API_URL_PATH)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(project)))
+				.andExpect(status().isInternalServerError());
+	}*/
+	
+	@Test
+	void quandoPUTForChamadoEUmProjetoForAtualizadoRetorneStatusIsOk() throws Exception {
+		Project project = this.projectBuilder();
+
+		when(projectService.updateProject(PROJECT_VALID_ID, project)).thenReturn(project);
+
+		mockMvc.perform(put(PROJECT_API_URL_PATH + "/" + PROJECT_VALID_ID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(project)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.name", is(project.getName())));
+	}
+	
+	@Test
+	void quandoDELETEForChamadoComUmIDValidoRetorneIsOk() throws Exception {
+		Project project = this.projectBuilder();
+
+		doNothing().when(projectService).deleteProjectById(project.getId());
+
+		mockMvc.perform(delete(PROJECT_API_URL_PATH + "/" + project.getId())
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 
 	@Test
-	void quandoGETForChamadoPassandoUmIDInvalidoRetorneStatusNotFound() throws Exception {
-		//aqui
+	void quandoDELETEForChamadoComUmIDInvalidoRetorneBadRequest() throws Exception {
+
+		doThrow(ProjectNotFoundException.class).when(projectService).deleteProjectById(PROJECT_INVALID_ID);
+
+		mockMvc.perform(delete(PROJECT_API_URL_PATH + "/" + PROJECT_INVALID_ID)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isInternalServerError());
 	}
 
 	@Test
-	void requestCreateProjectMustReturnStatusOk() {
-		ResponseEntity<Project> result = projectController.createProject(any());
-		Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
-	}
-	
-	@Test
-	void requestUpdateProjectMustReturnStatusOk() {
-		ResponseEntity<Project> result = projectController.updateProject(any(), any());
-		Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
-	}
-	
-	@Test
-	void requestdeleteProjectMustReturnStatusOk() {
-		ResponseEntity<Project> result = projectController.deleteProject(any());
-		Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+	void quandoDELETEForChamadoMasProjetoPossuirVersoesJaCadastradasRetorneBadRequest() throws Exception {
+
+		doThrow(CascadeDeletionException.class).when(projectService).deleteProjectById(PROJECT_VALID_ID);
+
+		mockMvc.perform(delete(PROJECT_API_URL_PATH + "/" + PROJECT_VALID_ID)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest());
 	}
 
 }
