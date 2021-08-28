@@ -16,7 +16,7 @@ services:
       dockerfile: ./mysql.dockerfile
     image: mysql
     ports:
-      - "3306:3306"
+      - "32779:3306"
     environment:
       MYSQL_USER: springuser
       MYSQL_PASSWORD: password
