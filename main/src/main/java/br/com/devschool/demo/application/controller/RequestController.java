@@ -1,6 +1,7 @@
 package br.com.devschool.demo.application.controller;
 
 import br.com.devschool.demo.domain.model.internal.Request;
+import br.com.devschool.demo.domain.model.internal.dto.EventDTO;
 import br.com.devschool.demo.domain.model.internal.dto.RequestDTO;
 import br.com.devschool.demo.domain.service.RequestService;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +19,16 @@ public class RequestController {
 
     @Cacheable(value = "findAllRequests")
     @GetMapping("/request")
-    public ResponseEntity<List<Request>> findAllRequests(){
-        return ResponseEntity.ok(requestService.getAllRequests());
+    public ResponseEntity<List<RequestDTO>> findAllRequests(){
+        return ResponseEntity.ok(RequestDTO.convertList(requestService.getAllRequests()));
     }
 
     // show
     @Cacheable(value = "findRequestById")
     @GetMapping("/request/{id}")
-    public ResponseEntity<Request> findRequestById(@PathVariable Integer id){
-        return ResponseEntity.ok(requestService.getRequestById(id));
+    public ResponseEntity<RequestDTO> findRequestById(@PathVariable Integer id){
+        RequestDTO requestDTO  = new RequestDTO(requestService.getRequestById(id));
+        return ResponseEntity.ok(requestDTO);
     }
 
     // post

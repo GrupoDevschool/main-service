@@ -6,7 +6,7 @@ import br.com.devschool.demo.domain.model.internal.dto.RequestPropertyDTO;
 import java.util.List;
 
 public interface RequestPropertyService {
-    List<RequestProperty> getAllRequestProperty();
+    List<RequestPropertyDTO> getAllRequestProperty();
 
     RequestProperty getRequestPropertyById(Integer id);
 

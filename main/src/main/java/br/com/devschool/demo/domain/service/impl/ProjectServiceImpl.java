@@ -1,6 +1,7 @@
 package br.com.devschool.demo.domain.service.impl;
 
 import br.com.devschool.demo.domain.model.internal.Project;
+import br.com.devschool.demo.domain.model.internal.dto.ProjectDTO;
 import br.com.devschool.demo.domain.service.ProjectService;
 import br.com.devschool.demo.infra.exception.CascadeDeletionException;
 import br.com.devschool.demo.infra.exception.ProjectNotFoundException;
@@ -38,7 +39,8 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ProjectsNotListedException();
         }
 
-//        List<ProjectDTO> projectDTOS = projects.stream().map()
+//        List<ProjectDTO> projectDTOS = projects.stream().map();
+
 
         return projects;
     }

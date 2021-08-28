@@ -1,6 +1,7 @@
 package br.com.devschool.demo.application.controller;
 
 import br.com.devschool.demo.domain.model.internal.Project;
+import br.com.devschool.demo.domain.model.internal.dto.ProjectDTO;
 import br.com.devschool.demo.domain.service.ProjectService;
 import br.com.devschool.demo.infra.exception.ProjectNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,26 +19,29 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/project")
-    public ResponseEntity<List<Project>> getAllProjects(@RequestParam(required = false, defaultValue = "") String name, @RequestParam(required = false) String status, @PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
-        return ResponseEntity.ok(projectService.getAllProjects(name, status, pageable));
+    public ResponseEntity<List<ProjectDTO>> getAllProjects(@RequestParam(required = false, defaultValue = "") String name, @RequestParam(required = false) String status, @PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
+        return ResponseEntity.ok(ProjectDTO.convertList(projectService.getAllProjects(name, status, pageable)));
     }
 
     // show
     @GetMapping("/project/{id}")
-    public ResponseEntity<Project> getProjectById(@PathVariable Integer id){
-        return ResponseEntity.ok(projectService.getProjectById(id));
+    public ResponseEntity<ProjectDTO> getProjectById(@PathVariable Integer id){
+      ProjectDTO projectDTO  = new ProjectDTO(projectService.getProjectById(id));
+        return ResponseEntity.ok(projectDTO);
     }
 
     // post
     @PostMapping("/project")
-    public ResponseEntity<Project> createProject(@RequestBody Project project){
-        return ResponseEntity.ok(projectService.createProject(project));
+    public ResponseEntity<ProjectDTO> createProject(@RequestBody Project project){
+        ProjectDTO projectDTO = new ProjectDTO(projectService.createProject(project));
+        return ResponseEntity.ok(projectDTO);
     }
 
     // put
     @PutMapping("/project/{id}")
-    public ResponseEntity<Project> updateProject(@PathVariable Integer id, @RequestBody Project project) {
-        return ResponseEntity.ok(projectService.updateProject(id, project));
+    public ResponseEntity<ProjectDTO> updateProject(@PathVariable Integer id, @RequestBody Project project) {
+        ProjectDTO projectDTO = new ProjectDTO(projectService.updateProject(id,project));
+        return ResponseEntity.ok(projectDTO);
     }
 
     // delete

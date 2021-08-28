@@ -1,7 +1,9 @@
 package br.com.devschool.demo.application.controller;
 
 import br.com.devschool.demo.domain.model.internal.RequestProperty;
+import br.com.devschool.demo.domain.model.internal.dto.ProjectDTO;
 import br.com.devschool.demo.domain.model.internal.dto.RequestPropertyDTO;
+import br.com.devschool.demo.domain.model.internal.dto.ScreenDTO;
 import br.com.devschool.demo.domain.service.RequestPropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,8 +21,8 @@ public class RequestPropertyController {
 
     @Cacheable(value = "getAllRequestProperty")
     @GetMapping("/requestProperty")
-    public ResponseEntity<List<RequestProperty>> getAllRequestProperty() {
-        return ResponseEntity.ok(requestPropertyService.getAllRequestProperty());
+    public ResponseEntity<List<RequestPropertyDTO>> getAllRequestProperty() {
+        return ResponseEntity.ok(RequestPropertyDTO.covertList(requestPropertyService.getAllRequestProperty()));
     }
 
     @Cacheable(value = "getRequestPropertyById")

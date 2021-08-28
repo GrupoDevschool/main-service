@@ -1,6 +1,7 @@
 package br.com.devschool.demo.application.controller;
 
 import br.com.devschool.demo.domain.model.internal.Screen;
+import br.com.devschool.demo.domain.model.internal.dto.ProjectDTO;
 import br.com.devschool.demo.domain.model.internal.dto.ScreenDTO;
 import br.com.devschool.demo.domain.service.ScreenService;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,14 @@ public class ScreenController {
     private final ScreenService screenService;
 
     @GetMapping("/screen")
-    public ResponseEntity<List<Screen>> getAllScreens(@RequestParam Integer versionId, @PageableDefault(sort = "order", direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok(screenService.getAllScreens(versionId, pageable));
+    public ResponseEntity<List<ScreenDTO>> getAllScreens(@RequestParam Integer versionId, @PageableDefault(sort = "order", direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(ScreenDTO.convertList(screenService.getAllScreens(versionId, pageable)));
     }
 
     @GetMapping("/screen/{id}")
-    public ResponseEntity<Screen> getScreenById(@PathVariable Integer id) {
-        return ResponseEntity.ok(screenService.getScreenById(id));
+    public ResponseEntity<ScreenDTO> getScreenById(@PathVariable Integer id) {
+        ScreenDTO screenDTO  = new ScreenDTO(screenService.getScreenById(id));
+        return ResponseEntity.ok(screenDTO);
     }
 
     @PostMapping("/screen")
