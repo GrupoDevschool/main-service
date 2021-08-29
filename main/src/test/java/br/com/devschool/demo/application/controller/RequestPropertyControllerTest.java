@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import br.com.devschool.demo.domain.model.internal.RequestProperty;
+import br.com.devschool.demo.domain.model.internal.dto.RequestPropertyDTO;
 import br.com.devschool.demo.domain.service.impl.RequestPropertyServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,7 +28,7 @@ class RequestPropertyControllerTest {
 
 	@Test
 	void requestGetForRequestPropertysMustReturnStatusOk() {
-		ResponseEntity<List<RequestProperty>> results = controller.getAllRequestProperty();
+		ResponseEntity<List<RequestPropertyDTO>> results = controller.getAllRequestProperty();
 		Assertions.assertEquals(HttpStatus.OK, results.getStatusCode());
 	}
 

@@ -14,11 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Profile("Prod")
-@EnableWebSecurity
+@Profile("Dev")
 @Configuration
 @RequiredArgsConstructor
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguratioDev extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthAPI authAPI;
@@ -32,18 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/project").permitAll()
-                .antMatchers(HttpMethod.GET, "/version").permitAll()
-                .antMatchers(HttpMethod.GET, "/screen").permitAll()
-                .antMatchers(HttpMethod.GET, "/event").permitAll()
-                .antMatchers(HttpMethod.GET, "/eventType").permitAll()
-                .antMatchers(HttpMethod.GET, "/request").permitAll()
-                .antMatchers(HttpMethod.GET, "/requestProperty").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new ValidationFilter(authAPI), UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
 }

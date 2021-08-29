@@ -105,7 +105,7 @@ class ProjectControllerTest {
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", is(expectedProject.getName())))
-				.andExpect(jsonPath("$.status", is(expectedProject.isStatus())));
+				.andExpect(jsonPath("$.active", is(expectedProject.isStatus())));
 
 	}
 

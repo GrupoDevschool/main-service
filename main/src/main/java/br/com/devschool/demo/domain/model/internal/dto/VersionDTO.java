@@ -1,16 +1,12 @@
 package br.com.devschool.demo.domain.model.internal.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class VersionDTO {
     private Integer id;
 

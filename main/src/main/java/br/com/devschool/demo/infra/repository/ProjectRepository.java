@@ -1,6 +1,7 @@
 package br.com.devschool.demo.infra.repository;
 
 import br.com.devschool.demo.domain.model.internal.Project;
+import br.com.devschool.demo.domain.model.internal.dto.ProjectDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
