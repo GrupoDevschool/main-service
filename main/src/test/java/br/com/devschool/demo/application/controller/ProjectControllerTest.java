@@ -63,10 +63,8 @@ class ProjectControllerTest {
 				.build();
 	}
 
-	private MockMvc mockMvc;
-
 	@Autowired
-	private ObjectMapper objectMapper;
+	private MockMvc mockMvc;
 
 	@InjectMocks
 	private ProjectController projectController;
