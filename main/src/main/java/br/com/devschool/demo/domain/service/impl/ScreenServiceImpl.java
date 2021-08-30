@@ -1,5 +1,13 @@
 package br.com.devschool.demo.domain.service.impl;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import br.com.devschool.demo.domain.model.internal.Screen;
 import br.com.devschool.demo.domain.model.internal.Version;
 import br.com.devschool.demo.domain.model.internal.dto.ScreenDTO;
@@ -12,13 +20,6 @@ import br.com.devschool.demo.infra.repository.EventRepository;
 import br.com.devschool.demo.infra.repository.ScreenRepository;
 import br.com.devschool.demo.infra.repository.VersionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

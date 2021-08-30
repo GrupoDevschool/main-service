@@ -39,24 +39,4 @@ public class ScreenDTO {
 
     }
 
-    public static List<ScreenDTO> convertList(List<Screen> screen) {
-        return screen.stream().map(ScreenDTO::new).collect(Collectors.toList());
-    }
-
-    public static ScreenDTO convertList(Screen screen) {
-        if (screen == null) return null;
-        return ScreenDTO.builder()
-                .id(screen.getId())
-                .name(screen.getName())
-                .image(screen.getImage())
-                .screenFatherId(screen.getScreenFather().getId())
-                .order(screen.getOrder())
-                .urlog(screen.getUrlog())
-                .active(screen.isActive())
-                .cloneVersionId(screen.getCloneVersion().getId())
-                .build();
-    }
-
-
-
 }

@@ -1,14 +1,22 @@
 package br.com.devschool.demo.domain.model.internal;
 
 
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.springframework.lang.Nullable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
-
-import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -43,4 +51,6 @@ public class Version {
 
     private LocalDate updatedDate;
 
+    @OneToMany(mappedBy = "version")
+    private List<Screen> screens;
 }

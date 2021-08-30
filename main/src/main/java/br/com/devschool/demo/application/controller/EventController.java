@@ -27,13 +27,13 @@ public class EventController {
     }
 
     @PostMapping("/event")
-    public ResponseEntity<Event> createEvent(@RequestBody EventDTO eventDTO){
-        return ResponseEntity.ok(eventService.createEvent(eventDTO));
+    public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventDTO){
+        return ResponseEntity.ok(new EventDTO(eventService.createEvent(eventDTO)));
     }
 
     @PutMapping("/event/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Integer id,@RequestBody EventDTO eventDTO){
-        return ResponseEntity.ok(eventService.updateEvent(id, eventDTO));
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id,@RequestBody EventDTO eventDTO){
+        return ResponseEntity.ok(new EventDTO(eventService.updateEvent(id, eventDTO)));
     }
 
     @DeleteMapping("/event/{id}")

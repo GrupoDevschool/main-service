@@ -1,10 +1,11 @@
 package br.com.devschool.demo.domain.service;
 
-import br.com.devschool.demo.domain.model.internal.Screen;
-import br.com.devschool.demo.domain.model.internal.dto.ScreenDTO;
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import br.com.devschool.demo.domain.model.internal.Screen;
+import br.com.devschool.demo.domain.model.internal.dto.ScreenDTO;
 
 public interface ScreenService {
     List<Screen> getAllScreens(Integer versionId, Pageable pageable);

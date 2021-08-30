@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class RequestDTO {
 
+	private Integer id;
+	
     private String URL_Homolog;
 
     private Integer eventId;
@@ -31,6 +33,7 @@ public class RequestDTO {
     private Integer order;
 
     public RequestDTO(Request request) {
+    	this.id = request.getId();
         this.URL_Homolog = request.getURL_Homolog();
         this.eventId = request.getEvent().getId();
         if (request.getRequestFather() != null) {

@@ -34,15 +34,15 @@ public class RequestController {
     // post
     @CacheEvict(value = { "findAllRequests", "findRequestById" }, allEntries = true)
     @PostMapping("/request")
-    public ResponseEntity<Request> createRequest(@RequestBody RequestDTO request){
-        return ResponseEntity.ok(requestService.createRequest(request));
+    public ResponseEntity<RequestDTO> createRequest(@RequestBody RequestDTO request){
+        return ResponseEntity.ok(new RequestDTO(requestService.createRequest(request)));
     }
 
     // put
     @CacheEvict(value = { "findAllRequests", "findRequestById" }, allEntries = true)
     @PutMapping("/request/{id}")
-    public ResponseEntity<Request> updateRequest(@PathVariable Integer id, @RequestBody RequestDTO request) {
-        return ResponseEntity.ok(requestService.updateRequest(id, request));
+    public ResponseEntity<RequestDTO> updateRequest(@PathVariable Integer id, @RequestBody RequestDTO request) {
+        return ResponseEntity.ok(new RequestDTO(requestService.updateRequest(id, request)));
     }
 
     // delete
