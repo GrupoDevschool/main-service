@@ -108,9 +108,11 @@ public class ScreenServiceImpl implements ScreenService {
 
         Version existentVersion = optionalVersion.get();
 
-        Optional<Version> clonedVersion = versionRepository.findById(screenDTO.getCloneVersionId());
-
-        Optional<Screen> screenFather = screenRepository.findById(screenDTO.getScreenFatherId());
+    	Optional<Version> clonedVersion = (screenDTO.getCloneVersionId() != null)? 
+    			versionRepository.findById(screenDTO.getCloneVersionId()) : Optional.empty();        	
+        
+    	Optional<Screen> screenFather = (screenDTO.getScreenFatherId() != null)? 
+    			screenRepository.findById(screenDTO.getScreenFatherId()) : Optional.empty(); 	
 
         Screen newScreen = Screen.builder()
                 .id(id)
@@ -120,8 +122,8 @@ public class ScreenServiceImpl implements ScreenService {
                 .order(screenDTO.getOrder())
                 .urlog(screenDTO.getUrlog())
                 .version(existentVersion)
-                .cloneVersion(clonedVersion.orElse(null))
-                .screenFather(screenFather.orElse(null))
+                .cloneVersion((clonedVersion.isEmpty())? null : clonedVersion.get())
+                .screenFather((screenFather.isEmpty())? null : screenFather.get())
                 .createdDate(existentScreen.getCreatedDate())
                 .updatedDate(LocalDate.now())
                 .build();
