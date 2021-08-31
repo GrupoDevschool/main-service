@@ -42,7 +42,6 @@ public class RequestPropertyServiceImpl implements RequestPropertyService {
 
         RequestProperty newRequestProperty = RequestProperty.builder()
                 .request(existentRequest)
-                .type(requestPropertyDTO.getType())
                 .key(requestPropertyDTO.getKey())
                 .value(requestPropertyDTO.getValue())
                 .order(requestPropertyDTO.getOrder())
@@ -74,7 +73,6 @@ public class RequestPropertyServiceImpl implements RequestPropertyService {
         RequestProperty newRequestProperty = RequestProperty.builder()
                 .id(id)
                 .request(existentRequest)
-                .type(requestPropertyDTO.getType())
                 .key(requestPropertyDTO.getKey())
                 .value(requestPropertyDTO.getValue())
                 .order(requestPropertyDTO.getOrder())

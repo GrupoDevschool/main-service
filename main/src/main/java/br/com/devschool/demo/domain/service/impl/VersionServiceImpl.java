@@ -142,6 +142,7 @@ public class VersionServiceImpl implements VersionService {
                     .active(screen.isActive())
                     .order(screen.getOrder())
                     .urlog(screen.getUrlog())
+                    .cloneVersion(clonedVersion.get())
                     .createdDate(screen.getCreatedDate())
                     .updatedDate(screen.getUpdatedDate())
                     .build();
@@ -195,11 +196,11 @@ public class VersionServiceImpl implements VersionService {
 
         for (Request request : requests) {
             Request createdRequest = Request.builder()
-                    .URL_Homolog(request.getURL_Homolog())
+                    .uri_homolog(request.getUri_homolog())
                     .event(createdEvent)
-                    .URI_Prod(request.getURI_Prod())
-                    .Description(request.getDescription())
-                    .Layer(request.getLayer())
+                    .uri_prod(request.getUri_prod())
+                    .description(request.getDescription())
+                    .layer(request.getLayer())
                     .status(request.isStatus())
                     .order(request.getOrder())
                     .createdDate(request.getCreatedDate())
@@ -236,7 +237,6 @@ public class VersionServiceImpl implements VersionService {
         for (RequestProperty requests : requestProperties) {
             RequestProperty createdRequestProperty = RequestProperty.builder()
                     .request(createdRequest)
-                    .type(requests.getType())
                     .key(requests.getKey())
                     .value(requests.getValue())
                     .order(requests.getOrder())

@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestPropertyDTO {
 
+	private Integer requestPropertyId;
+	
     private Integer requestId;
-
-    private String type;
 
     private String key;
 
@@ -25,8 +25,8 @@ public class RequestPropertyDTO {
 
 
     public RequestPropertyDTO(RequestProperty requestProperty) {
-        this.requestId = requestProperty.getRequest().getId();
-        this.type = requestProperty.getType();
+        this.requestPropertyId = requestProperty.getId();
+    	this.requestId = requestProperty.getRequest().getId();
         this.key = requestProperty.getKey();
         this.value = requestProperty.getValue();
         this.order = requestProperty.getOrder();

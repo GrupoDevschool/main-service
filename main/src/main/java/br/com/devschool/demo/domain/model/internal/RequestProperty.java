@@ -23,8 +23,6 @@ public class RequestProperty {
     @ManyToOne()
     private Request request;
 
-    private String type;
-
     private String key;
 
     private Integer value;

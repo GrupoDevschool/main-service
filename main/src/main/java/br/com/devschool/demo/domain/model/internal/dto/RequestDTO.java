@@ -16,17 +16,17 @@ public class RequestDTO {
 
 	private Integer id;
 	
-    private String URL_Homolog;
+    private String uri_homolog;
 
     private Integer eventId;
 
     private Integer requestFatherId;
 
-    private String URI_Prod;
+    private String uri_prod;
 
-    private String Description;
+    private String description;
 
-    private String Layer;
+    private String layer;
 
     private boolean status;
 
@@ -34,15 +34,15 @@ public class RequestDTO {
 
     public RequestDTO(Request request) {
     	this.id = request.getId();
-        this.URL_Homolog = request.getURL_Homolog();
+        this.uri_homolog = request.getUri_homolog();
         this.eventId = request.getEvent().getId();
         if (request.getRequestFather() != null) {
             this.requestFatherId = request.getRequestFather().getId();
         }
-        this.URI_Prod = request.getURI_Prod();
-        this.Description = request.getDescription();
+        this.uri_prod = request.getUri_prod();
+        this.description = request.getDescription();
 
-        this.Layer = request.getLayer();
+        this.layer = request.getLayer();
         this.status = request.isStatus();
         this.order = request.getOrder();
     }

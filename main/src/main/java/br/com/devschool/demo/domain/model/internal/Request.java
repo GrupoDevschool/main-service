@@ -20,7 +20,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String URL_Homolog;
+    private String uri_homolog;
 
     @ManyToOne()
     private Event event;
@@ -28,11 +28,11 @@ public class Request {
     @ManyToOne()
     private Request requestFather;
 
-    private String URI_Prod;
+    private String uri_prod;
 
-    private String Description;
+    private String description;
 
-    private String Layer;
+    private String layer;
 
     private boolean status;
 
