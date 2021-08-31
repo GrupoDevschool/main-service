@@ -3,13 +3,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.devschool.demo.domain.model.internal.EventType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventTypeDTO {

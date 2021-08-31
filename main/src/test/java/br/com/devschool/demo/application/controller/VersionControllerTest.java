@@ -130,7 +130,7 @@ class VersionControllerTest {
 	}
 
 	@Test
-	void quandoPUTForChamadoEUmProjetoForAtualizadoRetorneStatusIsOk() throws Exception {
+	void quandoPUTForChamadoEUmaVersaoForAtualizadaRetorneStatusIsOk() throws Exception {
 		Version version = this.versionBuilder();
 		VersionDTO versionDTO = this.versionDTOBuilder(version);
 

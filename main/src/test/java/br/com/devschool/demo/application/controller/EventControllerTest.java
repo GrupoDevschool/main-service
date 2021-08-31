@@ -1,64 +1,138 @@
 package br.com.devschool.demo.application.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-
-import java.util.List;
-
-import org.junit.jupiter.api.Assertions;
+import br.com.devschool.demo.domain.model.internal.Event;
+import br.com.devschool.demo.domain.model.internal.EventType;
+import br.com.devschool.demo.domain.model.internal.Screen;
+import br.com.devschool.demo.domain.model.internal.dto.EventDTO;
+import br.com.devschool.demo.domain.service.impl.EventServiceImpl;
+import br.com.devschool.demo.infra.exception.CascadeDeletionException;
+import br.com.devschool.demo.infra.exception.EventNotFoundException;
+import br.com.devschool.demo.util.JsonConvertionUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import br.com.devschool.demo.domain.model.internal.Event;
-import br.com.devschool.demo.domain.model.internal.dto.EventDTO;
-import br.com.devschool.demo.domain.service.impl.EventServiceImpl;
+import java.util.Collections;
+
+import static br.com.devschool.demo.util.JsonConvertionUtils.asJsonString;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class EventControllerTest {
+
+	private static final String EVENT_API_URL_PATH = "/event";
+	private static final Integer EVENT_VALID_ID = 1;
+	private static final Integer EVENT_INVALID_ID = 2;
+	private Event eventBuilder() {
+		return Event.builder()
+				.id(2)
+				.screen(Screen.builder().id(1).build())
+				.eventType(EventType.builder().id(1).build())
+				.active(true)
+				.order(1)
+				.parameter("parametro x")
+				.build();
+	}
 
 	@InjectMocks
 	private EventController controller;
 	
 	@Mock
 	private EventServiceImpl service;
-	@Mock(answer = Answers.RETURNS_MOCKS)
-	private Event event;
-	
-	@Test
-	void requestGetForEventsMustReturnStatusOk() {
-		ResponseEntity<List<EventDTO>> results = controller.getAllEvents();
-		Assertions.assertEquals(HttpStatus.OK, results.getStatusCode());
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@BeforeEach
+	void setUp() {
+		mockMvc = MockMvcBuilders.standaloneSetup(controller)
+				.setControllerAdvice(new ErrorHandler())
+				.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+				.build();
 	}
 	
 	@Test
-	void requestGetEventByIdMustReturnStatusOk() {
-		doReturn(event).when(service).getEventById(any());
-		ResponseEntity<EventDTO> result = controller.getEventById(any());
-		Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+	void requestGetForEventsMustReturnStatusOk() throws Exception {
+		Event event = eventBuilder();
+
+		when(service.getAllEvents()).thenReturn(Collections.singletonList(event));
+
+		mockMvc.perform(get(EVENT_API_URL_PATH)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
 	
 	@Test
-	void requestCreateEventMustReturnStatusOk() {
-		ResponseEntity<Event> result = controller.createEvent(any());
-		Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+	void quandoGETForChamadoPassandoUmIDValidoRetorneStatusIsOk() throws Exception {
+		Event event = eventBuilder();
+
+		when(service.getEventById(EVENT_VALID_ID)).thenReturn(event);
+
+		mockMvc.perform(get(EVENT_API_URL_PATH + "/" + EVENT_VALID_ID)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void quandoGETForChamadoPassandoUmIDInvalidoRetorneStatusInternalServerError() throws Exception {
+		when(service.getEventById(EVENT_INVALID_ID)).thenThrow(EventNotFoundException.class);
+
+		mockMvc.perform(get(EVENT_API_URL_PATH + "/" + EVENT_INVALID_ID)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isInternalServerError());
 	}
 	
 	@Test
-	void requestUpdateEventMustReturnStatusOk() {
-		ResponseEntity<Event> result = controller.updateEvent(any(), any());
-		Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+	void quandoPOSTForChamadoEUmEventoForCriadoRetorneStatusIsOk() throws Exception {
+		Event event = eventBuilder();
+		EventDTO eventDTO = new EventDTO(event);
+
+		when(service.createEvent(eventDTO)).thenReturn(event);
+
+		mockMvc.perform(post(EVENT_API_URL_PATH)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(eventDTO)))
+				.andExpect(status().isOk());
 	}
 	
 	@Test
-	void requestdeleteEventMustReturnStatusOk() {
-		ResponseEntity<Event> result = controller.deleteEvent(any());
-		Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+	void quandoPUTForChamadoEUmEventoForAtualizadoRetorneStatusIsOk() throws Exception {
+		Event event = eventBuilder();
+		EventDTO eventDTO = new EventDTO(event);
+
+		when(service.updateEvent(EVENT_VALID_ID, eventDTO)).thenReturn(event);
+
+		mockMvc.perform(put(EVENT_API_URL_PATH + "/" + EVENT_VALID_ID )
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(eventDTO)))
+				.andExpect(status().isOk());
+	}
+	
+	@Test
+	void quandoDELETEForChamadoComUmIDValidoRetorneStatusIsOk() throws Exception {
+		doNothing().when(service).deleteEventById(EVENT_VALID_ID);
+
+		mockMvc.perform(delete(EVENT_API_URL_PATH + "/" + EVENT_VALID_ID)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void quandoDELETEForChamadoMasEventoPossuirRequisicoesJaCadastradasRetorneStatusBadRequest() throws Exception {
+		doThrow(CascadeDeletionException.class).when(service).deleteEventById(EVENT_VALID_ID);
+
+		mockMvc.perform(delete(EVENT_API_URL_PATH + "/" + EVENT_VALID_ID)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest());
 	}
 }
