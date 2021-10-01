@@ -26,8 +26,9 @@ public class TokenService {
         Date now = new Date();
         Date exp = new Date(now.getTime() + Long.parseLong(expiration));
 
-        return Jwts.builder().setIssuer("app")
+        return Jwts.builder().setIssuer("sisdoc")
                 .setSubject(usuario.getId().toString())
+                .claim("nome", usuario.getName())
                 .setIssuedAt(new Date())
                 .setExpiration(exp)
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
