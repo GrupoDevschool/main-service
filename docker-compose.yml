@@ -3,6 +3,7 @@ services:
   redisdoc:
     container_name: redisdoc
     image: redis
+    hostname: redis
     ports:
     - "6379:6379"
     networks:
@@ -28,7 +29,7 @@ services:
     volumes:
       - /data/database:/var/lib/mysql
   springboot:
-    container_name: springboot
+    container_name: sisdoc
     build:
       context: ./main
       dockerfile: ./springboot.dockerfile

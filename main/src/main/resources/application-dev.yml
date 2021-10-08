@@ -7,6 +7,6 @@ spring:
     username: root
     password: password
   redis:
-    host: 'localhost'
+    host: 'redis'
     timeout: 10000
 
