@@ -2,6 +2,7 @@ package br.com.devschool.demo.application.controller;
 
 import java.util.List;
 
+import br.com.devschool.demo.domain.model.internal.Event;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.devschool.demo.domain.model.internal.RequestProperty;
@@ -20,13 +23,21 @@ import lombok.RequiredArgsConstructor;
 
 
 @RestController
+@RequestMapping({"/requestProperty"})
 @RequiredArgsConstructor
 public class RequestPropertyController {
     private final RequestPropertyService requestPropertyService;
 
     @Cacheable(value = "getAllRequestProperty")
-    @GetMapping("/requestProperty")
-    public ResponseEntity<List<RequestPropertyDTO>> getAllRequestProperty() {
+    @GetMapping
+    public ResponseEntity<List<RequestPropertyDTO>> getAllRequestProperty(@RequestParam(required = false) Integer requestId) {
+        List<RequestProperty> requestProperties;
+        if(requestId != null){
+            requestProperties = requestPropertyService.getByRequestId(requestId);
+        } else {
+            requestProperties = requestPropertyService.getAllRequestProperty();
+        }
+
         return ResponseEntity.ok(RequestPropertyDTO.covertList(requestPropertyService.getAllRequestProperty()));
     }
 

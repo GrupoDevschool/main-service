@@ -91,4 +91,9 @@ public class RequestPropertyServiceImpl implements RequestPropertyService {
 
         requestPropertyRepository.deleteById(id);
     }
+
+    @Override
+    public List<RequestProperty> getByRequestId(Integer requestId) {
+        return requestRepository.findAllByRequestId(requestId);
+    }
 }

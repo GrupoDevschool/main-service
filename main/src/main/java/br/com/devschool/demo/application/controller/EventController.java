@@ -1,6 +1,7 @@
 package br.com.devschool.demo.application.controller;
 
 import br.com.devschool.demo.domain.model.internal.Event;
+import br.com.devschool.demo.domain.model.internal.EventType;
 import br.com.devschool.demo.domain.model.internal.dto.EventDTO;
 import br.com.devschool.demo.domain.model.internal.dto.ProjectDTO;
 import br.com.devschool.demo.domain.service.EventService;
@@ -11,13 +12,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping({"event"})
 @RequiredArgsConstructor
 public class EventController {
     private final EventService eventService;
 
-    @GetMapping("/event")
-    public ResponseEntity<List<EventDTO>> getAllEvents() {
-        return ResponseEntity.ok(EventDTO.convertList(eventService.getAllEvents()));
+    @GetMapping
+    public ResponseEntity<List<EventDTO>> getAllEvents(@RequestParam(required = false) Integer screenId) {
+        List<Event> events;
+        if(screenId != null){
+            events = eventService.getEventByscreenId(screenId);
+        } else {
+            events = eventService.getAllEvents();
+        }
+
+        return ResponseEntity.ok(EventDTO.convertList(events));
     }
 
     @GetMapping("/event/{id}")

@@ -1,5 +1,6 @@
 package br.com.devschool.demo.application.controller;
 
+import br.com.devschool.demo.domain.model.internal.Event;
 import br.com.devschool.demo.domain.model.internal.Request;
 import br.com.devschool.demo.domain.model.internal.dto.EventDTO;
 import br.com.devschool.demo.domain.model.internal.dto.RequestDTO;
@@ -13,14 +14,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping({"request"})
 @RequiredArgsConstructor
 public class RequestController {
     private final RequestService requestService;
 
     @Cacheable(value = "findAllRequests")
-    @GetMapping("/request")
-    public ResponseEntity<List<RequestDTO>> findAllRequests(){
-        return ResponseEntity.ok(RequestDTO.convertList(requestService.getAllRequests()));
+    @GetMapping
+    public ResponseEntity<List<RequestDTO>> findAllRequests(@RequestParam(required = false) Integer eventId){
+        List<Request> requests;
+        if(eventId != null){
+            requests = requestService.getEventById(eventId);
+        } else {
+            requests = requestService.getAllRequests();
+        }
+
+        return ResponseEntity.ok(RequestDTO.convertList(requests));
     }
 
     // show

@@ -33,6 +33,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> getEventByscreenId(Integer screenId) {
+        return eventRepository.findAllByScreen_Id(screenId);
+    }
+
+    @Override
     public Event createEvent(EventDTO eventDTO) {
         Optional<EventType> optionalEventType = eventTypeRepository.findById(eventDTO.getEventTypeId());
         Optional<Screen> optionalScreen = screenRepository.findById(eventDTO.getScreenId());

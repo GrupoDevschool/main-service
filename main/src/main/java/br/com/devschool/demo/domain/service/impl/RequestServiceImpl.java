@@ -148,4 +148,9 @@ public class RequestServiceImpl implements RequestService {
 
         requestRepository.deleteById(id);
     }
+
+    @Override
+    public List<Request> getEventById(Integer eventId) {
+        return requestRepository.findAllByEventId(eventId);
+    }
 }

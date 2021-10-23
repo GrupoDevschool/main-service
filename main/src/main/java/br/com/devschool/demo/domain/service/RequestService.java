@@ -15,4 +15,6 @@ public interface RequestService {
     Request updateRequest(Integer id, RequestDTO requestDTO);
 
     void deleteRequestById(Integer id);
+
+    List<Request> getEventById(Integer eventId);
 }

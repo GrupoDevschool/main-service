@@ -11,6 +11,8 @@ public interface EventService {
 
     Event getEventById(Integer id);
 
+    List<Event> getEventByscreenId(Integer screenId);
+
     Event createEvent(EventDTO eventDTO);
 
     Event updateEvent(Integer id, EventDTO eventDTO);

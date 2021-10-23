@@ -15,4 +15,6 @@ public interface RequestPropertyService {
     RequestProperty updateRequestProperty(Integer id, RequestPropertyDTO requestPropertyDTO);
 
     void deleteRequestPropertyById(Integer id);
+
+    List<RequestProperty> getByRequestId(Integer requestId);
 }

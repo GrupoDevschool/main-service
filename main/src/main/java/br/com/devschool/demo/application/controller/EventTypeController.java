@@ -1,7 +1,9 @@
 package br.com.devschool.demo.application.controller;
 
-import java.util.List;
-
+import br.com.devschool.demo.domain.model.internal.EventType;
+import br.com.devschool.demo.domain.model.internal.dto.EventTypeDTO;
+import br.com.devschool.demo.domain.service.EventTypeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.devschool.demo.domain.model.internal.EventType;
-import br.com.devschool.demo.domain.model.internal.dto.EventTypeDTO;
-import br.com.devschool.demo.domain.service.EventTypeService;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
