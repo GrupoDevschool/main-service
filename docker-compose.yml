@@ -3,13 +3,12 @@ services:
   redisdoc:
     container_name: redisdoc
     image: redis
-    hostname: redis
     ports:
-    - "6379:6379"
+      - "6379:6379"
     networks:
-    - production
+      - production
     volumes:
-    - /data/redis:/data
+      - /data/redis:/data
   mysqldoc:
     container_name: mysqldoc
     build:
@@ -25,7 +24,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: document
     networks:
-    - production
+      - production
     volumes:
       - /data/database:/var/lib/mysql
   springboot:
