@@ -93,7 +93,7 @@ public class RequestPropertyServiceImpl implements RequestPropertyService {
     }
 
     @Override
-    public List<RequestProperty> getByRequestId(Integer requestId) {
-        return requestRepository.findAllByRequestId(requestId);
+    public List<RequestProperty> getByRequestId(Integer id) {
+        return requestPropertyRepository.findByrequestId(id);
     }
 }

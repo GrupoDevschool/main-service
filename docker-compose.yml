@@ -29,7 +29,7 @@ services:
     volumes:
       - /data/database:/var/lib/mysql
   springboot:
-    container_name: sisdoc
+    container_name: springboot
     build:
       context: ./main
       dockerfile: ./springboot.dockerfile
