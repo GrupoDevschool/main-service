@@ -10,5 +10,5 @@ import java.util.List;
 public interface RequestPropertyRepository extends JpaRepository<RequestProperty, Integer> {
     List<RequestProperty> findAllByRequest_Id(Integer id);
 
-    List<RequestProperty> findByrequestId(Integer id);
+    List<RequestProperty> findByrequestId(Integer requestId);
 }

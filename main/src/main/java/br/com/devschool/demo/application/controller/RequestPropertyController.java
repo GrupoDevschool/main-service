@@ -29,10 +29,10 @@ public class RequestPropertyController {
 
     @Cacheable(value = "getAllRequestProperty")
     @GetMapping("/requestProperty")
-    public ResponseEntity<List<RequestPropertyDTO>> getAllRequestProperty(@RequestParam(required = false) Integer id) {
+    public ResponseEntity<List<RequestPropertyDTO>> getAllRequestProperty(@RequestParam(required = false) Integer requestId) {
         List<RequestProperty> requestProperties;
-        if(id != null){
-            requestProperties = requestPropertyService.getByRequestId(id);
+        if(requestId != null){
+            requestProperties = requestPropertyService.getByRequestId(requestId);
         } else {
             requestProperties = requestPropertyService.getAllRequestProperty();
         }
