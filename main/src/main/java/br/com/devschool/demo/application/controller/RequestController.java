@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping({"request"})
 @RequiredArgsConstructor
 public class RequestController {
     private final RequestService requestService;
 
     @Cacheable(value = "findAllRequests")
-    @GetMapping
+    @GetMapping("/request")
     public ResponseEntity<List<RequestDTO>> findAllRequests(@RequestParam(required = false) Integer eventId){
         List<Request> requests;
         if(eventId != null){

@@ -23,13 +23,12 @@ import lombok.RequiredArgsConstructor;
 
 
 @RestController
-@RequestMapping({"/requestProperty"})
 @RequiredArgsConstructor
 public class RequestPropertyController {
     private final RequestPropertyService requestPropertyService;
 
     @Cacheable(value = "getAllRequestProperty")
-    @GetMapping
+    @GetMapping("/requestProperty")
     public ResponseEntity<List<RequestPropertyDTO>> getAllRequestProperty(@RequestParam(required = false) Integer id) {
         List<RequestProperty> requestProperties;
         if(id != null){

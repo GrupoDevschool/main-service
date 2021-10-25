@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping({"event"})
 @RequiredArgsConstructor
 public class EventController {
     private final EventService eventService;
 
-    @GetMapping
+    @GetMapping("/event")
     public ResponseEntity<List<EventDTO>> getAllEvents(@RequestParam(required = false) Integer screenId) {
         List<Event> events;
         if(screenId != null){
