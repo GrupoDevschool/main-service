@@ -17,4 +17,6 @@ public interface ScreenService {
     Screen updateScreen(Integer id, ScreenDTO screenDTO);
 
     void deleteScreenById(Integer id);
+
+    List<Screen> getFatherScreenById(Integer screenFatherId,  Pageable pageable);
 }

@@ -147,4 +147,11 @@ public class ScreenServiceImpl implements ScreenService {
 
         screenRepository.deleteById(id);
     }
+
+
+
+    @Override
+    public List<Screen> getFatherScreenById(Integer screenFatherId, Pageable pageable) {
+        return screenRepository.findAllByscreenFather_Id(screenFatherId , pageable);
+    }
 }

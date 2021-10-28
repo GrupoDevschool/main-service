@@ -2,6 +2,7 @@ package br.com.devschool.demo.application.controller;
 
 import java.util.List;
 
+import br.com.devschool.demo.domain.model.internal.RequestProperty;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -28,8 +29,15 @@ public class ScreenController {
     private final ScreenService screenService;
 
     @GetMapping("/screen")
-    public ResponseEntity<List<ScreenResponseDTO>> getAllScreens(@RequestParam Integer versionId, @PageableDefault(sort = "order", direction = Sort.Direction.ASC) Pageable pageable) { 
-    	return ResponseEntity.ok(ScreenResponseDTO.convertList(screenService.getAllScreens(versionId, pageable)));
+    public ResponseEntity<List<ScreenResponseDTO>> getAllScreens(@RequestParam Integer versionId,@RequestParam(required = false) Integer screenFatherId ,  @PageableDefault(sort = "order", direction = Sort.Direction.ASC) Pageable pageable ) {
+        List<Screen> screens;
+        if(screenFatherId != null){
+            screens = screenService.getFatherScreenById(screenFatherId, pageable);
+        }else {
+            screens = screenService.getAllScreens(versionId, pageable);
+        }
+
+        return ResponseEntity.ok(ScreenResponseDTO.convertList(screens));
     }
 
     @GetMapping("/screen/{id}")

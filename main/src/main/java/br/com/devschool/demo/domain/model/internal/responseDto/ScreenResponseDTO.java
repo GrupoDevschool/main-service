@@ -1,5 +1,6 @@
 package br.com.devschool.demo.domain.model.internal.responseDto;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,8 @@ public class ScreenResponseDTO {
 	private Integer order;
 	private Integer versionId;
 	private Integer versionClonedId;
+	private String urlog;
+	private LocalDate createdDate;
 	
 	public ScreenResponseDTO(Screen screen) {
 		Integer fatherId = null;
@@ -35,6 +38,8 @@ public class ScreenResponseDTO {
 		this.name = screen.getName();
 		this.image = screen.getImage();
 		this.order = screen.getOrder();
+		this.urlog = screen.getUrlog();
+		this.createdDate = screen.getCreatedDate();
 		this.versionId = screen.getVersion().getId();
 		this.versionClonedId = cloneVersionId;
 	}

@@ -12,4 +12,8 @@ public interface ScreenRepository extends JpaRepository<Screen, Integer> {
     List<Screen> findAllByVersion_Id(Integer versionId, Pageable pageable);
     List<Screen> findByVersion_Id(Integer versionId);
     List<Screen> findAllByscreenFather_Id(Integer screenFatherId);
+    List<Screen> findAllByscreenFather_Id(Integer screenFatherId, Pageable pageable);
+
+
+
 }
