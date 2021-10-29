@@ -12,6 +12,7 @@ import br.com.devschool.demo.domain.model.internal.Screen;
 import br.com.devschool.demo.domain.model.internal.Version;
 import br.com.devschool.demo.domain.model.internal.dto.ScreenDTO;
 import br.com.devschool.demo.domain.service.ScreenService;
+import br.com.devschool.demo.domain.service.StorageService;
 import br.com.devschool.demo.infra.exception.CascadeDeletionException;
 import br.com.devschool.demo.infra.exception.ScreenNotFoundException;
 import br.com.devschool.demo.infra.exception.ScreensNotListedException;
@@ -27,6 +28,7 @@ public class ScreenServiceImpl implements ScreenService {
     private final VersionRepository versionRepository;
     private final ScreenRepository screenRepository;
     private final EventRepository eventRepository;
+    private final StorageService storageService;
 
     @Override
     public List<Screen> getAllScreens(Integer versionId, Pageable pageable) {
@@ -54,10 +56,12 @@ public class ScreenServiceImpl implements ScreenService {
 
         Version existentVersion = optionalVersion.get();
 
+        String imageUrl = storageService.uploadFile(screenDTO.getImage());
+        
         if (Objects.isNull(screenDTO.getScreenFatherId())) {
             Screen newScreen = Screen.builder()
                     .name(screenDTO.getName())
-                    .image(screenDTO.getImage())
+                    .image(imageUrl)
                     .active(screenDTO.isActive())
                     .order(screenDTO.getOrder())
                     .urlog(screenDTO.getUrlog())
@@ -77,7 +81,7 @@ public class ScreenServiceImpl implements ScreenService {
 
         Screen newScreen = Screen.builder()
                 .name(screenDTO.getName())
-                .image(screenDTO.getImage())
+                .image(imageUrl)
                 .active(screenDTO.isActive())
                 .order(screenDTO.getOrder())
                 .urlog(screenDTO.getUrlog())
@@ -117,7 +121,7 @@ public class ScreenServiceImpl implements ScreenService {
         Screen newScreen = Screen.builder()
                 .id(id)
                 .name(screenDTO.getName())
-                .image(screenDTO.getImage())
+//                .image(screenDTO.getImage())
                 .active(screenDTO.isActive())
                 .order(screenDTO.getOrder())
                 .urlog(screenDTO.getUrlog())
