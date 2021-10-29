@@ -52,7 +52,7 @@ public class ScreenController {
     }
 
     @PutMapping("/screen/{id}")
-    public ResponseEntity<ScreenResponseDTO> updateScreen(@PathVariable Integer id,@RequestBody ScreenDTO screenDTO){
+    public ResponseEntity<ScreenResponseDTO> updateScreen(@PathVariable Integer id,@ModelAttribute ScreenDTO screenDTO){
     	ScreenResponseDTO screenResponseDTO = new ScreenResponseDTO(screenService.updateScreen(id, screenDTO));
     	return ResponseEntity.ok(screenResponseDTO);
     }

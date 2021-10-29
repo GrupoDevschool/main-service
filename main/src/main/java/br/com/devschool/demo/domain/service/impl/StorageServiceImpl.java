@@ -27,7 +27,7 @@ public class StorageServiceImpl implements StorageService{
 	
 	public String uploadFile(MultipartFile file) {
 		File fileObj = convertMultiPartFileToFile(file);
-		String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+		String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename().replace(" ", "_");
 		s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj).withCannedAcl(CannedAccessControlList.PublicRead));
 		fileObj.delete();
 		return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;

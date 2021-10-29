@@ -96,21 +96,11 @@ public class ScreenServiceImpl implements ScreenService {
 
     @Override
     public Screen updateScreen(Integer id, ScreenDTO screenDTO) {
-        Optional<Screen> optionalScreen = screenRepository.findById(id);
 
-        if (optionalScreen.isEmpty()) {
-            throw new ScreenNotFoundException(id);
-        }
+    	Screen existentScreen = screenRepository.findById(id).orElseThrow(() -> new ScreenNotFoundException(id));
 
-        Screen existentScreen = optionalScreen.get();
-
-        Optional<Version> optionalVersion = versionRepository.findById(screenDTO.getVersionId());
-
-        if (optionalVersion.isEmpty()) {
-            throw new VersionNotFoundException(screenDTO.getVersionId());
-        }
-
-        Version existentVersion = optionalVersion.get();
+    	Version existentVersion = versionRepository.findById(screenDTO.getVersionId())
+    			.orElseThrow(() -> new VersionNotFoundException(screenDTO.getVersionId()));
 
     	Optional<Version> clonedVersion = (screenDTO.getCloneVersionId() != null)? 
     			versionRepository.findById(screenDTO.getCloneVersionId()) : Optional.empty();        	
@@ -118,10 +108,16 @@ public class ScreenServiceImpl implements ScreenService {
     	Optional<Screen> screenFather = (screenDTO.getScreenFatherId() != null)? 
     			screenRepository.findById(screenDTO.getScreenFatherId()) : Optional.empty(); 	
 
+    	String urlImage = existentScreen.getImage();
+    	if (screenDTO.getImage() != null) {
+    		storageService.deleteFile(storageService.getFilenameFromUrl(urlImage));
+    		urlImage = storageService.uploadFile(screenDTO.getImage());
+    	}
+    	
         Screen newScreen = Screen.builder()
                 .id(id)
                 .name(screenDTO.getName())
-//                .image(screenDTO.getImage())
+                .image(urlImage)
                 .active(screenDTO.isActive())
                 .order(screenDTO.getOrder())
                 .urlog(screenDTO.getUrlog())
