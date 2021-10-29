@@ -137,9 +137,7 @@ public class ScreenServiceImpl implements ScreenService {
 
     @Override
     public void deleteScreenById(Integer id) {
-        if (screenRepository.findById(id).isEmpty()) {
-            throw new ScreenNotFoundException(id);
-        }
+    	Screen screen = screenRepository.findById(id).orElseThrow(() -> new ScreenNotFoundException(id));
 
         if (!eventRepository.findAllByScreen_Id(id).isEmpty()) {
             throw new CascadeDeletionException("Essa Tela não pode ser excluída pois já possui eventos cadastrados para ela.");
@@ -148,7 +146,9 @@ public class ScreenServiceImpl implements ScreenService {
         if (!screenRepository.findAllByscreenFather_Id(id).isEmpty()) {
             throw new CascadeDeletionException("Essa Tela não pode ser excluída pois já possui telas associadas a ela.");
         }
-
+        
+        String fileName = storageService.getFilenameFromUrl(screen.getImage());
+        storageService.deleteFile(fileName);
         screenRepository.deleteById(id);
     }
 

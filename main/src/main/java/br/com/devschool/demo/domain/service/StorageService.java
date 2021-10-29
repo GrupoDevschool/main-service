@@ -8,4 +8,6 @@ public interface StorageService {
 	
 	public Boolean deleteFile(String fileName);
 	
+	public String getFilenameFromUrl(String url);
+	
 }

@@ -43,6 +43,11 @@ public class StorageServiceImpl implements StorageService{
 		}
 	}
 	
+	public String getFilenameFromUrl(String url) {
+		String fileName = url.split(".s3.amazonaws.com/")[1];
+		return fileName;
+	}
+	
 	private File convertMultiPartFileToFile(MultipartFile file) {
 		File convertedFile = new File(file.getOriginalFilename());
 		try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
@@ -52,4 +57,5 @@ public class StorageServiceImpl implements StorageService{
 		}
 		return convertedFile;
 	}
+	
 }
