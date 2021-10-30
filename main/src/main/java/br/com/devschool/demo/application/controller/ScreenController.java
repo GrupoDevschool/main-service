@@ -8,10 +8,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,13 +51,13 @@ public class ScreenController {
     }
 
     @PostMapping("/screen")
-    public ResponseEntity<ScreenResponseDTO> createScreen(@ModelAttribute ScreenDTO screenDTO){
+    public ResponseEntity<ScreenResponseDTO> createScreen(@RequestBody ScreenDTO screenDTO){
         ScreenResponseDTO screenResponseDTO = new ScreenResponseDTO(screenService.createScreen(screenDTO)); 
     	return ResponseEntity.ok(screenResponseDTO);
     }
 
     @PutMapping("/screen/{id}")
-    public ResponseEntity<ScreenResponseDTO> updateScreen(@PathVariable Integer id,@ModelAttribute ScreenDTO screenDTO){
+    public ResponseEntity<ScreenResponseDTO> updateScreen(@PathVariable Integer id, @RequestBody ScreenDTO screenDTO){
     	ScreenResponseDTO screenResponseDTO = new ScreenResponseDTO(screenService.updateScreen(id, screenDTO));
     	return ResponseEntity.ok(screenResponseDTO);
     }

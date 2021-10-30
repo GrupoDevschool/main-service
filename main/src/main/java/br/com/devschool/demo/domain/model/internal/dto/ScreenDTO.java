@@ -3,15 +3,9 @@ package br.com.devschool.demo.domain.model.internal.dto;
 import br.com.devschool.demo.domain.model.internal.Screen;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -21,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ScreenDTO {
     private Integer id;
     private String name;
-    private MultipartFile image;
+    private String image;
     private boolean active;
     private Integer order;
     private String urlog;
@@ -32,7 +26,7 @@ public class ScreenDTO {
     public ScreenDTO(Screen screen) {
         this.id = screen.getId();
         this.name = screen.getName();
-//        this.image = screen.getImage();
+        this.image = screen.getImage();
         this.active = screen.isActive();
         this.order = screen.getOrder();
         this.versionId = screen.getVersion().getId();

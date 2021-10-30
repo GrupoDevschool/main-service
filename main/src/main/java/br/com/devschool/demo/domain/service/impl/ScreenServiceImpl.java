@@ -12,7 +12,6 @@ import br.com.devschool.demo.domain.model.internal.Screen;
 import br.com.devschool.demo.domain.model.internal.Version;
 import br.com.devschool.demo.domain.model.internal.dto.ScreenDTO;
 import br.com.devschool.demo.domain.service.ScreenService;
-import br.com.devschool.demo.domain.service.StorageService;
 import br.com.devschool.demo.infra.exception.CascadeDeletionException;
 import br.com.devschool.demo.infra.exception.ScreenNotFoundException;
 import br.com.devschool.demo.infra.exception.ScreensNotListedException;
@@ -28,7 +27,6 @@ public class ScreenServiceImpl implements ScreenService {
     private final VersionRepository versionRepository;
     private final ScreenRepository screenRepository;
     private final EventRepository eventRepository;
-    private final StorageService storageService;
 
     @Override
     public List<Screen> getAllScreens(Integer versionId, Pageable pageable) {
@@ -55,16 +53,11 @@ public class ScreenServiceImpl implements ScreenService {
         }
 
         Version existentVersion = optionalVersion.get();
-
-        String imageUrl = null;
-        if (screenDTO.getImage() != null) {
-        	imageUrl = storageService.uploadFile(screenDTO.getImage());        	
-        }
         
         if (Objects.isNull(screenDTO.getScreenFatherId())) {
             Screen newScreen = Screen.builder()
                     .name(screenDTO.getName())
-                    .image(imageUrl)
+                    .image(screenDTO.getImage())
                     .active(screenDTO.isActive())
                     .order(screenDTO.getOrder())
                     .urlog(screenDTO.getUrlog())
@@ -84,7 +77,7 @@ public class ScreenServiceImpl implements ScreenService {
 
         Screen newScreen = Screen.builder()
                 .name(screenDTO.getName())
-                .image(imageUrl)
+                .image(screenDTO.getImage())
                 .active(screenDTO.isActive())
                 .order(screenDTO.getOrder())
                 .urlog(screenDTO.getUrlog())
@@ -110,17 +103,11 @@ public class ScreenServiceImpl implements ScreenService {
         
     	Optional<Screen> screenFather = (screenDTO.getScreenFatherId() != null)? 
     			screenRepository.findById(screenDTO.getScreenFatherId()) : Optional.empty(); 	
-
-    	String urlImage = existentScreen.getImage();
-    	if (screenDTO.getImage() != null) {
-    		storageService.deleteFile(storageService.getFilenameFromUrl(urlImage));
-    		urlImage = storageService.uploadFile(screenDTO.getImage());
-    	}
     	
         Screen newScreen = Screen.builder()
                 .id(id)
                 .name(screenDTO.getName())
-                .image(urlImage)
+                .image(screenDTO.getImage())
                 .active(screenDTO.isActive())
                 .order(screenDTO.getOrder())
                 .urlog(screenDTO.getUrlog())
@@ -136,7 +123,7 @@ public class ScreenServiceImpl implements ScreenService {
 
     @Override
     public void deleteScreenById(Integer id) {
-    	Screen screen = screenRepository.findById(id).orElseThrow(() -> new ScreenNotFoundException(id));
+    	screenRepository.findById(id).orElseThrow(() -> new ScreenNotFoundException(id));
 
         if (!eventRepository.findAllByScreen_Id(id).isEmpty()) {
             throw new CascadeDeletionException("Essa Tela não pode ser excluída pois já possui eventos cadastrados para ela.");
@@ -146,8 +133,6 @@ public class ScreenServiceImpl implements ScreenService {
             throw new CascadeDeletionException("Essa Tela não pode ser excluída pois já possui telas associadas a ela.");
         }
         
-        String fileName = storageService.getFilenameFromUrl(screen.getImage());
-        storageService.deleteFile(fileName);
         screenRepository.deleteById(id);
     }
 
