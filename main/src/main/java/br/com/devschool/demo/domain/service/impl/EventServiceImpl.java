@@ -21,12 +21,16 @@ public class EventServiceImpl implements EventService {
     private final ScreenRepository screenRepository;
     private final EventTypeRepository eventTypeRepository;
 
+
     @Override
-    public List<Event> getAllEvents()  {
+    public List<Event> getAllEvents() {
         return eventRepository.findAll();
     }
 
-
+    @Override
+    public List<Event> getEventByeventTypeId(Integer eventTypeId) {
+        return eventRepository.findAllByeventType_Id(eventTypeId);
+    }
     @Override
     public Event getEventById(Integer id) {
         return eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
@@ -107,5 +111,7 @@ public class EventServiceImpl implements EventService {
 
         eventRepository.deleteById(id);
     }
-    }
+
+
+}
 

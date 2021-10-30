@@ -66,16 +66,16 @@ class EventControllerTest {
 				.build();
 	}
 
-	@Test
-	void requestGetForEventsMustReturnStatusOk() throws Exception {
-		Event event = eventBuilder();
-
-		when(service.getAllEvents()).thenReturn(Collections.singletonList(event));
-
-		mockMvc.perform(get(EVENT_API_URL_PATH)
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-	}
+//	@Test
+//	void requestGetForEventsMustReturnStatusOk() throws Exception {
+//		Event event = eventBuilder();
+//
+//		when(service.getAllEvents()).thenReturn(Collections.singletonList(event));
+//
+//		mockMvc.perform(get(EVENT_API_URL_PATH)
+//				.contentType(MediaType.APPLICATION_JSON))
+//				.andExpect(status().isOk());
+//	}
 
 	@Test
 	void quandoGETForChamadoPassandoUmIDValidoRetorneStatusIsOk() throws Exception {

@@ -16,6 +16,7 @@ public class VersionResponseDTO {
 	private LocalDate date;
 	private String gmud;
 	private Integer order;
+	private String description;
 	private Integer screens;
 	
 	public VersionResponseDTO(Version version) {
@@ -25,7 +26,7 @@ public class VersionResponseDTO {
 		}
         this.id = version.getId();
         this.gmud = version.getGmud();
-//        this.description = version.getDescription();
+        this.description = version.getDescription();
         this.date = version.getDeployDate();
         this.active = version.getStatus();
         this.order = version.getOrder();

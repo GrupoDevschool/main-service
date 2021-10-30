@@ -37,4 +37,5 @@ public class EventDTO {
         return events.stream().map(EventDTO::new).collect(Collectors.toList());
     }
 
+
 }
