@@ -33,7 +33,7 @@ public class EventDTO {
         this.eventTypeId = event.getEventType().getId();
     }
 
-    public static List<EventDTO> convertList(List<Event> events) {
+    public static List<EventDTO> convertList(List<Event> events, Integer eventTypeId) {
         return events.stream().map(EventDTO::new).collect(Collectors.toList());
     }
 

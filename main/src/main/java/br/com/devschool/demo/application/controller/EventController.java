@@ -17,7 +17,7 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping("/event")
-    public ResponseEntity<List<EventDTO>> getAllEvents(@RequestParam(required = false) Integer screenId) {
+    public ResponseEntity<List<EventDTO>> getAllEvents(@RequestParam(required = false) Integer screenId, Integer eventTypeId) {
         List<Event> events;
         if(screenId != null){
             events = eventService.getEventByscreenId(screenId);
@@ -25,7 +25,7 @@ public class EventController {
             events = eventService.getAllEvents();
         }
 
-        return ResponseEntity.ok(EventDTO.convertList(events));
+        return ResponseEntity.ok(EventDTO.convertList(events, eventTypeId));
     }
 
     @GetMapping("/event/{id}")
