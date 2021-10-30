@@ -56,7 +56,10 @@ public class ScreenServiceImpl implements ScreenService {
 
         Version existentVersion = optionalVersion.get();
 
-        String imageUrl = storageService.uploadFile(screenDTO.getImage());
+        String imageUrl = null;
+        if (screenDTO.getImage() != null) {
+        	imageUrl = storageService.uploadFile(screenDTO.getImage());        	
+        }
         
         if (Objects.isNull(screenDTO.getScreenFatherId())) {
             Screen newScreen = Screen.builder()
@@ -154,4 +157,12 @@ public class ScreenServiceImpl implements ScreenService {
     public List<Screen> getFatherScreenById(Integer screenFatherId, Pageable pageable) {
         return screenRepository.findAllByscreenFather_Id(screenFatherId , pageable);
     }
+
+	@Override
+	public List<Screen> getSisters(Integer screenId) {
+		Screen screen = screenRepository.findById(screenId).orElseThrow(() -> new ScreenNotFoundException(screenId));
+		if (screen.getScreenFather() == null) return List.of();
+		List<Screen> sistersScreens = screenRepository.findAllByscreenFather_Id(screen.getScreenFather().getId());
+		return sistersScreens;
+	}
 }

@@ -19,4 +19,6 @@ public interface ScreenService {
     void deleteScreenById(Integer id);
 
     List<Screen> getFatherScreenById(Integer screenFatherId,  Pageable pageable);
+
+	List<Screen> getSisters(Integer screenId);
 }

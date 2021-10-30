@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +42,12 @@ public class ScreenController {
     public ResponseEntity<ScreenResponseDTO> getScreenById(@PathVariable Integer id) {
         ScreenResponseDTO screenDTO  = new ScreenResponseDTO(screenService.getScreenById(id));
         return ResponseEntity.ok(screenDTO);
+    }
+    
+    @GetMapping("/screen/sister/{id}")
+    public ResponseEntity<List<ScreenResponseDTO>> getSistersOfScreen(@PathVariable(name = "id") Integer screenId) {
+    	List<Screen> screens = screenService.getSisters(screenId);
+    	return ResponseEntity.ok(ScreenResponseDTO.convertList(screens));
     }
 
     @PostMapping("/screen")
