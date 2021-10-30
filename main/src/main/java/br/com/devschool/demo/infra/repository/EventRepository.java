@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findAllByScreen_Id(Integer id);
+
+    List<Event> findAllByeventType_Id(Integer eventTypeId);
+
 }

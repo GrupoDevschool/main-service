@@ -1,7 +1,6 @@
 package br.com.devschool.demo.domain.service;
 
 import br.com.devschool.demo.domain.model.internal.Event;
-import br.com.devschool.demo.domain.model.internal.Version;
 import br.com.devschool.demo.domain.model.internal.dto.EventDTO;
 
 import java.util.List;
@@ -18,4 +17,6 @@ public interface EventService {
     Event updateEvent(Integer id, EventDTO eventDTO);
 
     void deleteEventById(Integer id);
+
+    List<Event> getEventByeventTypeId(Integer eventTypeId);
 }
