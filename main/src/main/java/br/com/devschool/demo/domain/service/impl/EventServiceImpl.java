@@ -31,6 +31,12 @@ public class EventServiceImpl implements EventService {
     public List<Event> getEventByeventTypeId(Integer eventTypeId) {
         return eventRepository.findAllByeventType_Id(eventTypeId);
     }
+
+    @Override
+    public List<Event> getAllByEventIdAndScreenId(Integer eventTypeId, Integer screenId) {
+        return eventRepository.findAllByEventType_IdAndScreen_Id(eventTypeId, screenId);
+    }
+
     @Override
     public Event getEventById(Integer id) {
         return eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));

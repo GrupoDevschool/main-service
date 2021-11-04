@@ -19,7 +19,9 @@ public class EventController {
     @GetMapping("/event")
     public ResponseEntity<List<EventDTO>> getAllEvents(@RequestParam(required = false) Integer screenId,@RequestParam(required = false) Integer eventTypeId) {
         List<Event> events;
-        if (eventTypeId != null){
+        if (eventTypeId != null && screenId != null) {
+            events = eventService.getAllByEventIdAndScreenId(eventTypeId, screenId);
+        }else if (eventTypeId != null){
             events = eventService.getEventByeventTypeId(eventTypeId);
         }else if(screenId != null){
             events = eventService.getEventByscreenId(screenId);
