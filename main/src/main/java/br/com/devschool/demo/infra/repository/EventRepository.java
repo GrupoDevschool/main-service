@@ -12,4 +12,5 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     List<Event> findAllByeventType_Id(Integer eventTypeId);
 
+    List<Event> findAllByEventType_IdAndScreen_Id(Integer eventTypeId, Integer screenId);
 }

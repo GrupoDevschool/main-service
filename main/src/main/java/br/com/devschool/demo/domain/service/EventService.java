@@ -19,4 +19,6 @@ public interface EventService {
     void deleteEventById(Integer id);
 
     List<Event> getEventByeventTypeId(Integer eventTypeId);
+
+    List<Event> getAllByEventIdAndScreenId(Integer eventTypeId, Integer screenId);
 }
