@@ -11,17 +11,14 @@ spring:
   redis:
     host: 'redis'
     timeout: 10000
-  flyway:
-    url: jdbc:mysql://localhost:32779/document
-    user: root
-    password: password
+
 
 cloud:
   aws:
     credentials:
-      access-key: {AWS.SECURITY}
-      secret-key: {AWS.SECURITY}
+      access-key: ${AWS.SECURITY}
+      secret-key: ${AWS.SECURITY}
     region:
-      static: {AWS.SECURITY}
+      static: ${AWS.SECURITY}
     stack:
       auto: false
