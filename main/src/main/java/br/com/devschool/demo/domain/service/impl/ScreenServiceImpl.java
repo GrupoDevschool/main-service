@@ -29,7 +29,18 @@ public class ScreenServiceImpl implements ScreenService {
     private final EventRepository eventRepository;
 
     @Override
-    public List<Screen> getAllScreens(Integer versionId, Pageable pageable) {
+    public List<Screen> getAllScreens() {
+        List<Screen> screens = screenRepository.findAll();
+
+        if (screens.isEmpty()) {
+            throw new ScreensNotListedException();
+        }
+
+        return screens;
+    }
+
+    @Override
+    public List<Screen> getAllScreensByVersion(Integer versionId, Pageable pageable) {
         List<Screen> screens = screenRepository.findAllByVersion_Id(versionId, pageable);
 
         if (screens.isEmpty()) {

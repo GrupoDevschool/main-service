@@ -30,7 +30,12 @@ public class VersionServiceImpl implements VersionService {
     private final RequestPropertyRepository requestPropertyRepository;
 
     @Override
-    public List<Version> getAllVersions(Integer projectId, Pageable pageable) {
+    public List<Version> getAllVersions() {
+        return versionRepository.findAll();
+    }
+
+    @Override
+    public List<Version> getByProjectId(Integer projectId, Pageable pageable) {
         List<Version> versions = versionRepository.findAllByProject_id(projectId, pageable);
 
         if (versions.isEmpty()) {

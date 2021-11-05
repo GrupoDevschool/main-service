@@ -16,6 +16,7 @@ public class VersionResponseDTO {
 	private LocalDate date;
 	private String gmud;
 	private Integer order;
+	private Integer projectId;
 	private String description;
 	private Integer screens;
 	
@@ -32,7 +33,7 @@ public class VersionResponseDTO {
         this.order = version.getOrder();
         this.number = version.getVersionNumber();
 //        this.versionCloneId = version.getVersionCloneId();
-//        this.projectId = version.getProject().getId();
+        this.projectId = version.getProject().getId();
         this.screens = screens;
     }
 	

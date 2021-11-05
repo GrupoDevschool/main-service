@@ -37,7 +37,7 @@ public class RequestPropertyController {
             requestProperties = requestPropertyService.getAllRequestProperty();
         }
 
-        return ResponseEntity.ok(RequestPropertyDTO.covertList(requestPropertyService.getAllRequestProperty()));
+        return ResponseEntity.ok(RequestPropertyDTO.covertList(requestProperties));
     }
 
     @Cacheable(value = "getRequestPropertyById")

@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface VersionService {
-    List<Version> getAllVersions(Integer projectId, Pageable pageable);
+    List<Version> getAllVersions();
+
+    List<Version> getByProjectId(Integer projectId, Pageable pageable);
 
     Version getVersionById(Integer id);
 

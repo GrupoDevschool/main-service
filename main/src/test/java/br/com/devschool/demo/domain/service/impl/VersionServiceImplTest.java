@@ -78,14 +78,14 @@ class VersionServiceImplTest {
 	@Test
 	void getAllVersions() {
 		doReturn(versions).when(versionRepository).findAllByProject_id(any(), any());
-		List<Version> versions = service.getAllVersions(any(), any());
+		List<Version> versions = service.getAllVersions();
 		assertTrue(!versions.isEmpty());
 	}
 
 	@Test
 	void whenGetAllVersionsReturnEmptyListMustThrowVersionNotListedException() {
 		doReturn(new ArrayList<Version>()).when(versionRepository).findAllByProject_id(any(), any());
-		Assertions.assertThrows(VersionsNotListedException.class, () -> service.getAllVersions(any(), any()));
+		Assertions.assertThrows(VersionsNotListedException.class, () -> service.getAllVersions());
 	}
 
 	@Test

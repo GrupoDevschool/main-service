@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
@@ -31,6 +32,8 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
         String token = tokenService.generateToken(authentication);
+
+        System.out.println(token);
 
         return ResponseEntity.ok(TokenDTO.builder()
                 .type("Bearer")

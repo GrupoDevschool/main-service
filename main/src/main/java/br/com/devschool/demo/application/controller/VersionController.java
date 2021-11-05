@@ -2,6 +2,7 @@ package br.com.devschool.demo.application.controller;
 
 import java.util.List;
 
+import br.com.devschool.demo.domain.model.internal.Version;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -27,8 +28,15 @@ public class VersionController {
     private final VersionService versionService;
 
     @GetMapping("/version")
-    public ResponseEntity<List<VersionResponseDTO>> getAllVersions(@RequestParam Integer projectId, @PageableDefault(sort = {"versionNumber", "order"}, direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok(VersionResponseDTO.convertList(versionService.getAllVersions(projectId, pageable)));
+    public ResponseEntity<List<VersionResponseDTO>> getAllVersions(@RequestParam(required = false) Integer projectId, @PageableDefault(sort = {"versionNumber", "order"}, direction = Sort.Direction.ASC) Pageable pageable) {
+        List<Version> versions;
+        if (projectId != null){
+            versions = versionService.getByProjectId(projectId, pageable);
+        } else {
+            versions = versionService.getAllVersions();
+        }
+
+        return ResponseEntity.ok(VersionResponseDTO.convertList(versions));
     }
 
     @GetMapping("/version/{id}")

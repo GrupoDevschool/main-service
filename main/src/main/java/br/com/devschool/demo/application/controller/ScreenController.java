@@ -27,12 +27,14 @@ public class ScreenController {
     private final ScreenService screenService;
 
     @GetMapping("/screen")
-    public ResponseEntity<List<ScreenResponseDTO>> getAllScreens(@RequestParam Integer versionId,@RequestParam(required = false) Integer screenFatherId ,  @PageableDefault(sort = "order", direction = Sort.Direction.ASC) Pageable pageable ) {
+    public ResponseEntity<List<ScreenResponseDTO>> getAllScreens(@RequestParam(required = false) Integer versionId,@RequestParam(required = false) Integer screenFatherId ,  @PageableDefault(sort = "order", direction = Sort.Direction.ASC) Pageable pageable ) {
         List<Screen> screens;
         if(screenFatherId != null){
             screens = screenService.getFatherScreenById(screenFatherId, pageable);
-        }else {
-            screens = screenService.getAllScreens(versionId, pageable);
+        } else if (versionId != null ){
+            screens = screenService.getAllScreensByVersion(versionId, pageable);
+        } else {
+            screens = screenService.getAllScreens();
         }
 
         return ResponseEntity.ok(ScreenResponseDTO.convertList(screens));

@@ -90,7 +90,7 @@ class ScreenControllerTest {
 
 	@Test
 	void requisicaoGetDeTodasAsTelasDeUmaVersaoComIdDeVersaoInvalidoDeveRetornarStatusCode204() throws Exception {
-		when(screenService.getAllScreens(anyInt(), any(Pageable.class)))
+		when(screenService.getAllScreens())
 			.thenThrow(ScreensNotListedException.class);
 
 		mockMvc.perform(get(SCREEN_API_URL_PATH)

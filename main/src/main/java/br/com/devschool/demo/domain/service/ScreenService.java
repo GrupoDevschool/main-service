@@ -8,7 +8,9 @@ import br.com.devschool.demo.domain.model.internal.Screen;
 import br.com.devschool.demo.domain.model.internal.dto.ScreenDTO;
 
 public interface ScreenService {
-    List<Screen> getAllScreens(Integer versionId, Pageable pageable);
+    List<Screen> getAllScreens();
+
+    List<Screen> getAllScreensByVersion(Integer versionId, Pageable pageable);
 
     Screen getScreenById(Integer id);
 
