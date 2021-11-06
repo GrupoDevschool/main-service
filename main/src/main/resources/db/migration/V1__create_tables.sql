@@ -10,7 +10,7 @@ Create table  event(id INT PRIMARY KEY AUTO_INCREMENT, active BOOLEAN NOT NULL, 
 
 Create table request(id INT PRIMARY KEY AUTO_INCREMENT, created_date DATE NULL, description VARCHAR(255) NULL, layer VARCHAR(255) NULL, `order` INT NULL, status BOOLEAN NOT NULL, updated_date DATE NULL, uri_homolog VARCHAR(255) NULL, uri_prod VARCHAR(255) NULL, event_id INT NULL, request_father_id INT NULL, CONSTRAINT FOREIGN KEY(event_id) REFERENCES event(id), CONSTRAINT FOREIGN KEY(request_father_id) REFERENCES request(id));
 
-Create table request_property(id INT PRIMARY KEY AUTO_INCREMENT, created_date DATE NULL, `key` VARCHAR(255) NULL, `order` VARCHAR(255) NULL, updated_date DATE NULL, `value` INT NULL, request_id INT NULL, CONSTRAINT FOREIGN KEY(request_id) REFERENCES request(id));
+Create table request_property(id INT PRIMARY KEY AUTO_INCREMENT, created_date DATE NULL, `key` VARCHAR(255) NULL, `order` VARCHAR(255) NULL, updated_date DATE NULL, `value` VARCHAR(255) NULL, request_id INT NULL, CONSTRAINT FOREIGN KEY(request_id) REFERENCES request(id));
 
 CREATE TABLE user (
 	id BIGINT PRIMARY KEY AUTO_INCREMENT,
