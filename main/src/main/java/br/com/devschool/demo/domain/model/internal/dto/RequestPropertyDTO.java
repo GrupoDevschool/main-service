@@ -19,7 +19,7 @@ public class RequestPropertyDTO {
 
     private String key;
 
-    private Integer value;
+    private String value;
 
     private String order;
 

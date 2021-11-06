@@ -38,7 +38,7 @@ class RequestPropertyControllerTest {
 				.id(2)
 				.request(Request.builder().id(1).build())
 				.key("key")
-				.value(1)
+				.value("1")
 				.order("order")
 				.build();
 	}

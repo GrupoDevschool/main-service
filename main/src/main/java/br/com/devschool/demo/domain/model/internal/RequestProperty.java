@@ -25,7 +25,7 @@ public class RequestProperty {
 
     private String key;
 
-    private Integer value;
+    private String value;
 
     private String order;
 
