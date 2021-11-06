@@ -8,6 +8,10 @@ spring:
     url: jdbc:mysql://localhost:32779/document
     username: root
     password: password
+  flyway:
+    url: jdbc:mysql://localhost:32779/document
+    username: root
+    password: password
   redis:
     host: 'redis'
     timeout: 10000
