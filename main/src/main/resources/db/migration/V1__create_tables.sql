@@ -12,3 +12,9 @@ Create table request(id INT PRIMARY KEY AUTO_INCREMENT, created_date DATE NULL, 
 
 Create table request_property(id INT PRIMARY KEY AUTO_INCREMENT, created_date DATE NULL, `key` VARCHAR(255) NULL, `order` VARCHAR(255) NULL, updated_date DATE NULL, `value` INT NULL, request_id INT NULL, CONSTRAINT FOREIGN KEY(request_id) REFERENCES request(id));
 
+CREATE TABLE user (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+	email VARCHAR(255) NOT NULL,
+	pass VARCHAR(255) NOT NULL,
+	name VARCHAR(255) NOT NULL
+); 
