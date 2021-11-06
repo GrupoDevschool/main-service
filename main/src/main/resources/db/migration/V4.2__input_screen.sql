@@ -1,0 +1,2 @@
+INSERT INTO screen (id, active, created_date, image, name, `order`, updated_date, urlog, clone_version_id, screen_father_id, version_id)
+VALUES (5, TRUE, '2021-11-04', 'Joffrey-Lannister.image', 'Joffrey-Lannister', 1, '2021-11-04', 'Joffrey-Lannister.com/homolog', NULL, 2, 1);
