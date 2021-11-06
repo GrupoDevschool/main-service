@@ -55,14 +55,14 @@ class ScreenServiceImplTest {
 	@Test
 	void getScreensByVersionId() {
 		doReturn(screens).when(screenRepository).findAllByVersion_Id(anyInt(), any());
-		List<Screen> allScreens = service.getAllScreens();
+		List<Screen> allScreens = service.getAllScreensByVersion(anyInt(), any());
 		assertEquals(screens, allScreens);
 	}
 	
 	@Test
 	void whenGetScreensByVersionIdReturnEmptyThenScreensNotListedExceptionMustBeThrow() {
 		doReturn(Collections.EMPTY_LIST).when(screenRepository).findAllByVersion_Id(anyInt(), any());
-		assertThrows(ScreensNotListedException.class, () -> service.getAllScreens());
+		assertThrows(ScreensNotListedException.class, () -> service.getAllScreensByVersion(anyInt(), any()));
 	}
 	
 	@Test
