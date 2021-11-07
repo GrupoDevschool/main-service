@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -157,8 +158,9 @@ public class ScreenServiceImpl implements ScreenService {
 	@Override
 	public List<Screen> getSisters(Integer screenId) {
 		Screen screen = screenRepository.findById(screenId).orElseThrow(() -> new ScreenNotFoundException(screenId));
-		if (screen.getScreenFather() == null) return List.of();
-		List<Screen> sistersScreens = screenRepository.findAllByscreenFather_Id(screen.getScreenFather().getId());
-		return sistersScreens;
+		if (screen.getScreenFather() == null) {
+            return screenRepository.findAll().stream().filter(s -> s.getScreenFather() == null && Objects.equals(s.getVersion().getId(), screen.getVersion().getId())).collect(Collectors.toList());
+        }
+        return screenRepository.findAllByscreenFather_Id(screen.getScreenFather().getId());
 	}
 }
