@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestPropertyDTO {
 
-	private Integer requestPropertyId;
+	private Integer id;
 	
     private Integer requestId;
 
@@ -25,7 +25,7 @@ public class RequestPropertyDTO {
 
 
     public RequestPropertyDTO(RequestProperty requestProperty) {
-        this.requestPropertyId = requestProperty.getId();
+        this.id = requestProperty.getId();
     	this.requestId = requestProperty.getRequest().getId();
         this.key = requestProperty.getKey();
         this.value = requestProperty.getValue();
